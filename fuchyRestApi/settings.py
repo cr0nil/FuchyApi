@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+# from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,12 +25,11 @@ SECRET_KEY = 'r9d5@q@@9gchqly8r!j6_07_iug8i7ry&=c$x0f2s4q1)+kq71'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 # AUTH_USER_MODEL = 'fuchy'
 # Application definition
 
 INSTALLED_APPS = [
+    # 'account',
     'fuchyRestApi',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +41,17 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     # 'api_basic',
 ]
+#
+AUTH_USER_MODEL = 'fuchyRestApi.Account'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'fuchyRestApi.api.urls'
+ROOT_URLCONF = 'fuchyRestApi.urls'
 
 TEMPLATES = [
     {

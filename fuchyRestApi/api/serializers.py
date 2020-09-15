@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from fuchyRestApi.fuchyRestApi.models import Account
+from fuchyRestApi.models import Account, Job
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
@@ -22,3 +22,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.set_password(password)
         account.save()
         return account
+
+class JobsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = ['id', 'title', 'author','category', 'dateStart','price']
