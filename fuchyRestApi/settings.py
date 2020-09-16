@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django_heroku
 # from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'djoser',
     'rest_framework.authtoken',
     # 'api_basic',
 ]
@@ -68,10 +70,7 @@ ROOT_URLCONF = 'fuchyRestApi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-os.path.join(BASE_DIR,'FuchyWebApp/fuchy-web-app/build')
-
-        ],
+        'DIRS': [os.path.join(BASE_DIR,'FuchyWebApp/fuchy-web-app/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,4 +132,7 @@ STATIC_ROOT = 'static'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'FuchyWebApp/fuchy-web-app/build/static')]
 
-# ALLOWED_HOSTS = ['fuchy.eba-kddctdtg.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['fuchy.eba-kddctdtg.us-west-2.elasticbeanstalk.com']
+
+
+django_heroku.settings (locals ())
