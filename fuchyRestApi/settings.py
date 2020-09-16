@@ -124,13 +124,13 @@ TIME_ZONE = 'Europe/London'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-# Static files (CSS, JavaScript, Images)s
+# Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
-STATICFILES_DIRS = [os.path.join('C:/Users/kbzdz/Documents/FuchyApi/fuchyRestApi/FuchyWebApp/fuchy-web-app/build/static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'FuchyWebApp/fuchy-web-app/build/static')]
 
 ALLOWED_HOSTS = ['fuchy.eba-kddctdtg.us-west-2.elasticbeanstalk.com']
 
