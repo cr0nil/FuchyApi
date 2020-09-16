@@ -130,7 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'FuchyWebApp/fuchy-web-app/build/static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR,'FuchyWebApp/fuchy-web-app/build/static')]
 
 ALLOWED_HOSTS = ['fuchy.eba-kddctdtg.us-west-2.elasticbeanstalk.com']
 
