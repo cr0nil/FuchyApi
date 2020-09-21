@@ -30,32 +30,33 @@ def registration_view(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ObtainAuthTokenView(APIView):
-    authentication_classes = []
-    permission_classes = []
 
-    def post(self, request):
-        context = {}
 
-        email = request.POST.get('username')
-        password = request.POST.get('password')
-        account = authenticate(email=email, password=password)
-        statusResponse = ''
-        if account:
-            try:
-                token = Token.objects.get(user=account)
-            except Token.DoesNotExist:
-                token = Token.objects.create(user=account)
-            context['response'] = 'Successfully authenticated.'
-            context['pk'] = account.pk
-            context['email'] = email.lower()
-            context['token'] = token.key
-            statusResponse = status.HTTP_200_OK
-        else:
-            context['response'] = 'Error'
-            context['message'] = 'Niepoprawny e-mail lub hasło'
-            statusResponse = status.HTTP_401_UNAUTHORIZED
-        return Response(context, status=statusResponse)
+@api_view(['POST', ])
+@permission_classes([])
+@authentication_classes([])
+def login_view(request):
+    context = {}
+
+    email = request.POST.get('username')
+    password = request.POST.get('password')
+    account = authenticate(email=email, password=password)
+    statusResponse = ''
+    if account:
+        try:
+            token = Token.objects.get(user=account)
+        except Token.DoesNotExist:
+            token = Token.objects.create(user=account)
+        context['response'] = 'Successfully authenticated.'
+        context['pk'] = account.pk
+        context['email'] = email.lower()
+        context['token'] = token.key
+        statusResponse = status.HTTP_200_OK
+    else:
+        context['response'] = 'Error'
+        context['message'] = 'Niepoprawny e-mail lub hasło'
+        statusResponse = status.HTTP_401_UNAUTHORIZED
+    return Response(context, status=statusResponse)
 
 
 @api_view(['GET', ])
