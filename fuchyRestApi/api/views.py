@@ -49,10 +49,11 @@ class ObtainAuthTokenView(APIView):
             context['pk'] = account.pk
             context['email'] = email.lower()
             context['token'] = token.key
+            return Response(context, status=status.HTTP_200_OK)
         else:
             context['response'] = 'Error'
             context['message'] = 'Niepoprawny e-mail lub hasło'
-        return Response(context)
+            return Response(context, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['GET', ])
