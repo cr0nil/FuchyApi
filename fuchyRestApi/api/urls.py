@@ -24,6 +24,6 @@ app_name = 'fuchyRestApi'
 # app_name = "fuchyRestApi"
 urlpatterns = [
     path('register', registration_view, name="register"),
-    path('login' , obtain_auth_token, name="login"),
+    path('login', ObtainAuthTokenView.as_view(), name="login"),
     path('jobList',getListJobs)
 ]
