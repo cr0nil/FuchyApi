@@ -8,6 +8,7 @@ from ..models import Job
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login
 from rest_framework import status
+import pickle
 from rest_framework import serializers
 
 @api_view(['POST', ])
@@ -28,9 +29,6 @@ def registration_view(request):
     if(error[0] == 'account with this email already exists.'):
         return Response({'message':'Konto o podanym e-mailu już istnieje'}, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 @api_view(['POST', ])
 @permission_classes([])
@@ -62,6 +60,18 @@ def login_view(request):
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated,))
 def getListJobs(request):
+    fieldsQuery = ['id','price','title', 'dateEnd', 'jobType']
     jobs = Job.objects.all()
-    serializer = JobsSerializer(jobs, many=True)
+    serializer = JobsSerializer(jobs, many=True, fields=fieldsQuery)
+    print(serializer.data)
     return Response(serializer.data)
+@api_view(['GET', ])
+@permission_classes((IsAuthenticated,))
+def getJobDetails(request,pk):
+    try:
+        job = Job.objects.get(pk=pk)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serilizer = JobsSerializer(job)
+        return Response(serilizer.data)

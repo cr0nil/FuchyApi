@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from .views import (registration_view, getListJobs, login_view)
+from .views import (registration_view, getListJobs, login_view, getJobDetails)
 from rest_framework.authtoken.views import obtain_auth_token
 
 app_name = 'fuchyRestApi'
@@ -25,5 +25,6 @@ app_name = 'fuchyRestApi'
 urlpatterns = [
     path('register', registration_view, name="register"),
     path('login', login_view, name="login"),
-    path('jobList',getListJobs)
+    path('job',getListJobs),
+    path('job/<int:pk>/',getJobDetails)
 ]

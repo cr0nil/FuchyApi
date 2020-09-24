@@ -73,7 +73,12 @@ class Job(models.Model):
     author = models.CharField(max_length=40)
     category = models.CharField(max_length=80)
     dateStart = models.DateField(auto_now_add=True)
+    dateEnd = models.DateField()
     price = models.FloatField(max_length=50)
+    description = models.CharField(max_length=140)
+    employerPhoneNumber = models.CharField(max_length=9)
+    jobType = models.CharField(max_length=20)
+    paymentType = models.CharField(max_length=20, blank=True)
     def __str__(self):
         return self.title
 
