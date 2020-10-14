@@ -57,14 +57,35 @@ def login_view(request):
     return Response(context, status=statusResponse)
 
 
-@api_view(['GET', ])
+@api_view(['GET', 'POST'])
 @permission_classes((IsAuthenticated,))
 def getListJobs(request):
-    fieldsQuery = ['id','price','title', 'dateEnd', 'jobType']
-    jobs = Job.objects.all()
-    serializer = JobsSerializer(jobs, many=True, fields=fieldsQuery)
-    print(serializer.data)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        fieldsQuery = ['id','price','title', 'dateEnd', 'jobType']
+        jobs = Job.objects.all()
+        serializer = JobsSerializer(jobs, many=True, fields=fieldsQuery)
+        print(serializer.data)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        data = request.data
+        current_user = request.user
+        _mutable = data._mutable
+
+        # set to mutable
+        data._mutable = True
+
+        # сhange the values you want
+        data['author'] = current_user.email
+        # set mutable flag back
+        data._mutable = _mutable
+
+        serializer = JobsSerializer(data = data)
+
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data,status.HTTP_201_CREATED)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated,))
 def getJobDetails(request,pk):
