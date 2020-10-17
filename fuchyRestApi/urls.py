@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from .api.views import (registration_view)
+from .chat.views import index
 from rest_framework.authtoken.views import obtain_auth_token
 
 # app_name = "fuchyRestApi"
@@ -26,4 +27,6 @@ urlpatterns = [
     path('register/', registration_view, name="register"),
     path('jobs/', registration_view, name="register"),
     path('api/account/', include('fuchyRestApi.api.urls', 'account_api')),
+    path('chat/',include('fuchyRestApi.chat.urls', namespace='chat')),
+    # re_path(r'^.*', TemplateView.as_view(template_name='index.html'))
 ]
