@@ -113,5 +113,5 @@ class Message(models.Model):
     content = models.TextField(validators=[validate_message_content])
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
 
-    def last_50_messages():
+    def last_50_messages(self):
         return Message.objects.order_by('-created_at').all()[:50]

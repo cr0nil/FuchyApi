@@ -87,16 +87,43 @@ def getListJobs(request):
             serializer.save()
             return Response(data,status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-@api_view(['GET', ])
+@api_view(['GET','PUT', 'DELETE',])
 @permission_classes((IsAuthenticated,))
 def getJobDetails(request,pk):
+    print(request.method)
     try:
         job = Job.objects.get(pk=pk)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        serilizer = JobsSerializer(job)
-        return Response(serilizer.data)
+        serializerJob = JobsSerializer(job)
+        return Response(serializerJob.data)
+    elif request.method == 'PUT':
+        data = request.data
+        current_user = request.user
+        _mutable = data._mutable
+
+        # set to mutable
+        data._mutable = True
+
+        # сhange the values you want
+        data['author'] = current_user.email
+        data['user'] = current_user.pk
+        # set mutable flag back
+
+        serializerJob = JobsSerializer(job, data=request.data)
+        if serializerJob.is_valid():
+            serializerJob.save()
+            data['response'] = 'Account update success'
+            data._mutable = _mutable
+            return Response(data=data)
+        return Response(serializerJob.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        operation = job.delete()
+        data = {}
+        if operation:
+            data['response'] = 'DELETE_SUCCESS'
+            return Response(data)
 
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated,))
